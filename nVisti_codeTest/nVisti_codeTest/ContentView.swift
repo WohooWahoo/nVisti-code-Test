@@ -42,16 +42,26 @@ struct ContentView: View {
                 
                 Button(action: {
                     calculateDistance()
-                }) {
+                })
+                {
                     Text("Calculate Distance")
+                        .font(.headline)
+                        .padding()
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .padding(50)
+                
+                NavigationLink(destination: DetailView(originCoordinate: CLLocationCoordinate2D(latitude: Double(originLatitude) ?? 0.0, longitude: Double(originLongitude) ?? 0.0), destinationCoordinate: CLLocationCoordinate2D(latitude: Double(destLatitude) ?? 0.0, longitude: Double(destLongitude) ?? 0.0))) {
+                    Text("View Map")
                         .font(.headline)
                         .padding()
                         .background(Color.purple)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
-                .padding(50)
-                
+    
                 Text("Distance: \(distance) km")
                     .padding(50)
             }
@@ -77,6 +87,15 @@ struct ContentView: View {
         let distanceInKilometers = distanceInMeters / 1000
         
         distance = String(format: "%.2f", distanceInKilometers)
+    }
+    
+    struct DetailView: View {
+        let originCoordinate: CLLocationCoordinate2D
+        let destinationCoordinate: CLLocationCoordinate2D
+        
+        var body: some View {
+            MapView(originCoordinate: originCoordinate, destinationCoordinate: destinationCoordinate)
+        }
     }
     
     struct MapView: UIViewRepresentable {
