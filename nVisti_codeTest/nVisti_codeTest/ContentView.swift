@@ -16,15 +16,32 @@ struct ContentView: View {
     @State private var destLongitude: String = ""
     
     @State private var distance: String = ""
-    
+ 
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationView {
+            VStack {
+                HStack {
+                    Text("Origin Coordinate:")
+                        .font(.headline)
+                    TextField("Latitude", text: $originLatitude)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    TextField("Longitude", text: $originLongitude)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                }
+                .padding()
+                
+                HStack {
+                    Text("Destination Coordinate:")
+                        .font(.headline)
+                    TextField("Latitude", text: $destLatitude)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    TextField("Longitude", text: $destLongitude)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                }
+                .padding()
+            }
         }
-        .padding()
+
     }
 }
 
