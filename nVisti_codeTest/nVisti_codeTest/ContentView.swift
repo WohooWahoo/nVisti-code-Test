@@ -63,9 +63,8 @@ struct ContentView: View {
         guard let originLat = Double(originLatitude),
               let originLon = Double(originLongitude),
               let destinationLat = Double(destLatitude),
-              let destinationLon = Double(destLongitude)
+              let destinationLon = Double(destLongitude) 
         else {
-            // Handle invalid input here if necessary
             return
         }
         
