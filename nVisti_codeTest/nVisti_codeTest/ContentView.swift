@@ -56,14 +56,13 @@ struct ContentView: View {
                     .padding(50)
             }
         }
-
     }
     
     func calculateDistance() {
         guard let originLat = Double(originLatitude),
               let originLon = Double(originLongitude),
               let destinationLat = Double(destLatitude),
-              let destinationLon = Double(destLongitude) 
+              let destinationLon = Double(destLongitude)
         else {
             return
         }
@@ -79,6 +78,39 @@ struct ContentView: View {
         
         distance = String(format: "%.2f", distanceInKilometers)
     }
+    
+    struct MapView: UIViewRepresentable {
+        let originCoordinate: CLLocationCoordinate2D
+        let destinationCoordinate: CLLocationCoordinate2D
+        
+        func makeUIView(context: Context) -> MKMapView {
+            let mapView = MKMapView()
+            
+            let originAnnotation = MKPointAnnotation()
+            originAnnotation.coordinate = originCoordinate
+            originAnnotation.title = "Origin"
+            mapView.addAnnotation(originAnnotation)
+            
+            let destinationAnnotation = MKPointAnnotation()
+            destinationAnnotation.coordinate = destinationCoordinate
+            destinationAnnotation.title = "Destination"
+            mapView.addAnnotation(destinationAnnotation)
+            
+            let centerCoordinate = CLLocationCoordinate2D(latitude: (originCoordinate.latitude + destinationCoordinate.latitude) / 2, longitude: (originCoordinate.longitude + destinationCoordinate.longitude) / 2)
+            let span = MKCoordinateSpan(latitudeDelta: abs(originCoordinate.latitude - destinationCoordinate.latitude) * 1.5, longitudeDelta: abs(originCoordinate.longitude - destinationCoordinate.longitude) * 1.5)
+            let region = MKCoordinateRegion(center: centerCoordinate, span: span)
+            
+            mapView.setRegion(region, animated: true)
+            
+            return mapView
+        }
+        
+        func updateUIView(_ uiView: MKMapView, context: Context) {
+            // updates to MapView go here... if needed
+        }
+    }
+
+    
 }
 
 #Preview {
